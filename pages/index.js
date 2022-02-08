@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className="container">
       <Head>
-        <title>Cooles Dings Bums</title>
+        <title>Payment-Devider</title>
       </Head>
 
       <main>
