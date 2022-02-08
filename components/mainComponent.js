@@ -9,6 +9,8 @@ import Operations from './unconnected/operations.js'
 
 import {getExpense,postExpense,deleteExpense,getCategory,postCategory,deleteCategory} from './database'
 
+let users = require('./../public/users.json');
+
 export default function MainComponent() {
 
   let [selectedExpense,setSelectedExpense] = React.useState([]);
@@ -18,9 +20,7 @@ export default function MainComponent() {
   let [expenseList,setExpenseList] = React.useState([]);
   let [categoryList,setCategoryList] = React.useState([]);
 
-  let expenses0 = expenseList.filter(el => el.by == "chris").map(el => el.amount).reduce((a,c) => a + c, 0);
-  let expenses1 = expenseList.filter(el => el.by == "kay").map(el => el.amount).reduce((a,c) => a + c, 0);
-
+  let expenses = users.map(user=>expenseList.filter(el => el.by == user.data).map(el => el.amount).reduce((a,c) => a + c, 0));
   //"name","by","amount","date","category_id"
   const createNewExpenseData = [
     {
@@ -32,8 +32,8 @@ export default function MainComponent() {
       name:"by",
       type:"select",
       lable:"Von?",
-      lables:["Chris","Kay"],
-      data:["chris","kay"]
+      lables:users.map(user=>user.lable),
+      data:users.map(user=>user.data)
     },
     {
       name:"halfAmount",
@@ -115,7 +115,7 @@ export default function MainComponent() {
       <>
         <CreateComponent options={createNewExpenseData} open={openExpense} setOpen={setOpenExpense} submitFunc={newExpenseFunction}/>
         <CreateComponent options={createNewCategoryData} open={openCategory} setOpen={setOpenCategory} submitFunc={newCategoryFunction}/>
-        <Statistic data={[expenses0,expenses1]}/>
+        <Statistic data={expenses} labels={users.map(user=>user.lable)}/>
         <Operations options={operationsCategory}/>
         <List columns={["name","by"]} data={categoryList} selected={selectedCategory} primaryColumn={"id"} setSelected={setSelectedCategory} />
         <Operations options={operationsExpense}/>

@@ -16,12 +16,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Statistic({data}) {
+export default function Statistic({data,labels}) {
 
   const classes = useStyles();
 
   const visibilityData = {
-    labels: ['Chris', 'Kay'],
+    labels: labels,
     datasets: [
       {
         label: '# of Votes',
@@ -29,10 +29,18 @@ export default function Statistic({data}) {
         backgroundColor: [
           'rgba(255, 0, 0, 0.2)',
           'rgba(0, 0, 255, 0.2)',
+          'rgba(0, 255, 0, 0.2)',
+          'rgba(0, 255, 255, 0.2)',
+          'rgba(255, 0, 255, 0.2)',
+          'rgba(255, 255, 0, 0.2)',
         ],
         borderColor: [
           'rgba(255, 0, 0, 0.2)',
           'rgba(0, 0, 255, 0.2)',
+          'rgba(0, 255, 0, 0.2)',
+          'rgba(0, 255, 255, 0.2)',
+          'rgba(255, 0, 255, 0.2)',
+          'rgba(255, 255, 0, 0.2)',
         ],
         borderWidth: 1,
       },
@@ -43,7 +51,7 @@ export default function Statistic({data}) {
     <Paper elevation={3} className={classes.paper}>
       <center>
         <Pie data={visibilityData}/>
-        <h2>{Math.abs(data[0]-data[1])} €</h2>
+        <h2>{data.join(" | ")} - €</h2>
       </center>
     </Paper>
   )
